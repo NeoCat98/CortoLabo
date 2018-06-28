@@ -11,7 +11,7 @@ package modelo;
  */
 public class Producto {
 
-    private int id,cantidad,disponibilidad;
+    private int id,disponibilidad,cantidad;
     private String nombre,codigo,tipo;
     private double precio;
 

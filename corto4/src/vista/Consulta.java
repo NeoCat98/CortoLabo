@@ -80,9 +80,9 @@ public class Consulta extends JFrame{
     public final void agregarLabels(){
         lblCodigo = new JLabel("Codigo:");
         lblTipo = new JLabel("Tipo:");
+        lblNombre = new JLabel("Nombre:");
         lblCantidad = new JLabel("Cantidad:");
         lblPrecio = new JLabel("Precio:");
-        lblNombre = new JLabel("Nombre:");
         lblDisponibilidad =  new JLabel("Disponibilidad:");
         lblCodigo.setBounds(10,10,ANCHOC,ALTOC);
         lblPrecio.setBounds(10,60,ANCHOC,ALTOC);
@@ -116,9 +116,9 @@ public class Consulta extends JFrame{
         
         
         codigo.setBounds(140,10,ANCHOC,ALTOC);
-        precio.setBounds(140,60,ANCHOC,ALTOC);
-        cantidad.setBounds(140,110,ANCHOC,ALTOC);
-        nombre.setBounds(140,160,ANCHOC,ALTOC);
+        cantidad.setBounds(140,60,ANCHOC,ALTOC);
+        nombre.setBounds(140,110,ANCHOC,ALTOC);
+        precio.setBounds(140,160,ANCHOC,ALTOC);
         tipo.setBounds(140,210,ANCHOC,ALTOC);
         si.setBounds(140,260,50,ALTOC);
         no.setBounds(210,260,50,ALTOC);
@@ -177,26 +177,6 @@ public class Consulta extends JFrame{
                 ProductoDao fd = new ProductoDao();
                 Producto f = new Producto(codigo.getText(),nombre.getText(),tipo.getText(),Double.parseDouble(precio.getText()),Integer.parseInt(cantidad.getText()),1);
                 if(no.isSelected()){
-                    f.setDisponibilidad(1);
-                }
-                if(fd.create(f)){
-                    JOptionPane.showMessageDialog(null,"Filtro registrado con exito");
-                    limpiarCampos();
-                    llenarTabla();
-                }
-                else{
-                    JOptionPane.showMessageDialog(null,"Ocurrio un problema al momento de crar el filtro");
-                    
-                }
-            }        
-        });
-        actualizar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ProductoDao fd = new ProductoDao();
-                //String codigo, String nombre,String tipo,double precio,int cantidad,int disponibilidad
-                Producto f = new Producto(codigo.getText(),nombre.getText(),tipo.getText(),Double.parseDouble(precio.getText()),Integer.parseInt(cantidad.getText()),1);
-                if(no.isSelected()){
                     f.setDisponibilidad(0);
                 }
                 if(fd.create(f)){
@@ -205,8 +185,31 @@ public class Consulta extends JFrame{
                     llenarTabla();
                 }
                 else{
-                    JOptionPane.showMessageDialog(null,"Ocurrio un problema al momento de crar el filtro");
+                    JOptionPane.showMessageDialog(null,"Ocurrio un problema al momento de crear el filtro");
                     
+                }
+            }        
+        });
+        actualizar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ProductoDao fd = new ProductoDao();
+                Producto f = new Producto(codigo.getText(),nombre.getText(),tipo.getText(),Double.parseDouble(precio.getText()),Integer.parseInt(cantidad.getText()),1);
+                if(no.isSelected()){
+                    f.setDisponibilidad(0);
+                }
+                if(fd.update(f)){
+                    JOptionPane.showMessageDialog(null,"Filtro registrado con exito");
+                    limpiarCampos();
+                    llenarTabla();
+                }
+                else{
+                    JOptionPane.showMessageDialog(null,"Ocurrio un problema al momento de actualizar el filtro");
+                    
+                }
+                if(fd.delete(codigo.getText())){
+                    limpiarCampos();
+                    llenarTabla();
                 }
             } 
         });
@@ -220,7 +223,7 @@ public class Consulta extends JFrame{
                     llenarTabla();
                 }
                 else{
-                    JOptionPane.showMessageDialog(null,"Ocurrio un problema al momento de crar el filtro");
+                    JOptionPane.showMessageDialog(null,"Ocurrio un problema al momento de eliminar el filtro");
                     
                 }
             } 
@@ -236,10 +239,10 @@ public class Consulta extends JFrame{
                 }
                 else{
                     codigo.setText(f.getCodigo());
-                    cantidad.setText(f.getNombre());
+                    cantidad.setText(Integer.toString(f.getCantidad()));
                     tipo.setText(f.getTipo());
                     precio.setText(Double.toString(f.getPrecio()));
-                    nombre.setText(Integer.toString(f.getCantidad()));
+                    nombre.setText(f.getNombre());
                     if(f.getDisponibilidad()==1){
                         si.setSelected(true);
                     }
@@ -270,9 +273,8 @@ public class Consulta extends JFrame{
         java.awt.EventQueue.invokeLater(new Runnable(){
             @Override
             public void run() {
-                new Consulta().setVisible(true);
+               new Consulta().setVisible(true);
             }
-            
         });
     }
 

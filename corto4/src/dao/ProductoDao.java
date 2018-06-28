@@ -84,10 +84,9 @@ public class ProductoDao implements Metodos <Producto>{
         PreparedStatement ps;
         try{
             ps = con.getCnx().prepareStatement(SQL_UPDATE);
-            //d, nombre, codigo, tipo, cantidad, precio, disponibilidad
             ps.setDouble(1, c.getPrecio());
             ps.setString(2, c.getNombre());
-            ps.setInt(3, c.getCantidad());
+            ps.setDouble(3, c.getCantidad());
             ps.setString(4, c.getTipo());
             ps.setInt(5,c.getDisponibilidad());
             ps.setString(6, c.getCodigo());
